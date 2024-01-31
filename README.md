@@ -1,6 +1,6 @@
 # NAND to Tetris Project
 
-![NAND to Tetris]([https://www.nand2tetris.org/])
+[NAND to Tetris](https://www.nand2tetris.org/)
 
 ## Introduction
 
