@@ -139,7 +139,7 @@ public class CodeWriter{
     // Writes assembly code that effects the label command
     public void writeLabel(String label){
         try{
-
+            bufferedWriter.write("(" + label.toUpperCase() + ")\n");
         }
         catch (IOException e){
             e.printStackTrace();
@@ -149,7 +149,7 @@ public class CodeWriter{
     // Writes assembly code that effects the goto command
     public void writeGoto(String label){
         try{
-
+            bufferedWriter.write("@" + label + "\n0;JMP");
         }
         catch (IOException e){
             e.printStackTrace();
@@ -159,13 +159,14 @@ public class CodeWriter{
     // Writes assembly code that effects the if-goto command
     public void writeIf(String label){
         try{
-
+            bufferedWriter.write("@SP\nM=M-1\nA=M\nD=M\n@" + label + "\nD;JGT\n");
         }
         catch (IOException e){
             e.printStackTrace();
         }
     }
 
+    /*
     // Writes assembly code that effects the function command
     public void writeFunction(String functionName, int nVars){
         try{
@@ -204,5 +205,7 @@ public class CodeWriter{
             e.printStackTrace();
         }
     }
+    
+     */
 
 }
