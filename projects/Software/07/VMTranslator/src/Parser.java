@@ -71,9 +71,23 @@ public class Parser {
                 trimmedCommand.startsWith("and") || trimmedCommand.startsWith("or") || trimmedCommand.startsWith("not")){
             return CommandType.C_ARITHMETIC;
         }
-        // only for now - until next week when we will add all the
-        return CommandType.C_LABEL;
-    }
+        else if (trimmedCommand.startsWith("goto")) {
+            return CommandType.C_GOTO;
+        }
+        else if (trimmedCommand.startsWith("if-goto")) {
+            return CommandType.C_IF;
+        }
+        else if (trimmedCommand.startsWith("label")) {
+            return CommandType.C_LABEL;
+        }
+        else if (trimmedCommand.startsWith("call")) {
+            return CommandType.C_CALL;
+        }
+        else if (trimmedCommand.startsWith("function")) {
+            return CommandType.C_FUNCTION;
+        }
+        // else (if the command is return...)
+        return CommandType.C_RETURN;    }
 
     /*public void SetCommandType(){
         String trimmedCommand = this.currentCommand.trim();

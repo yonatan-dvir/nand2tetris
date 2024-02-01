@@ -42,12 +42,12 @@ public class CodeWriter{
                 bufferedWriter.write("@SP\nM=M-1\nA=M\nD=M\nM=-D\n@SP\nM=M+1\n");
             }
             else if (currentCommand.trim().equals("and")) {
-                bufferedWriter.write("@SP\nM=M-1\nA=M\nD=M\n@SP\nM=M-1\nA=M\nM=M&D\n@SP\nM=M+1\n");
+                bufferedWriter.write("@SP\nM=M-1\nA=M\nD=M\n@SP\nM=M-1\nA=M\nD=D&M\nM=D\n@SP\nM=M+1\n");
             }
             else if (currentCommand.trim().equals("or")) {
-                bufferedWriter.write("@SP\nM=M-1\nA=M\nD=M\n@SP\nM=M-1\nA=M\nM=M|D\n@SP\nM=M+1\n");
+                bufferedWriter.write("@SP\nM=M-1\nA=M\nD=M\n@SP\nM=M-1\nA=M\nD=D|M\nM=D\n@SP\nM=M+1\n");
             }
-            else if (currentCommand.trim().equals("neg")){
+            else if (currentCommand.trim().equals("not")){
                 bufferedWriter.write("@SP\nM=M-1\nA=M\nD=M\nM=!D\n@SP\nM=M+1\n");
             }
             else if (currentCommand.trim().equals("eq")){
