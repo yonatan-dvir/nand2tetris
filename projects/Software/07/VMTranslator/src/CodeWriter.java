@@ -136,6 +136,66 @@ public class CodeWriter{
         }
     }
 
+    // Writes assembly code that effects the label command
+    public void writeLabel(String label){
+        try{
+
+        }
+        catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+
+    // Writes assembly code that effects the goto command
+    public void writeGoto(String label){
+        try{
+
+        }
+        catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+
+    // Writes assembly code that effects the if-goto command
+    public void writeIf(String label){
+        try{
+
+        }
+        catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+
+    // Writes assembly code that effects the function command
+    public void writeFunction(String functionName, int nVars){
+        try{
+
+        }
+        catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+
+    // Writes assembly code that effects the call command
+    public void writeCall(String functionName, int nArgs){
+        try{
+
+        }
+        catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+
+    // Writes assembly code that effects the return command
+    public void writeReturn(){
+        try{
+
+        }
+        catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+
     // Closes the output file
     public void close() {
         try{
@@ -144,7 +204,5 @@ public class CodeWriter{
             e.printStackTrace();
         }
     }
-
-
 
 }

@@ -32,7 +32,7 @@ public class Main {
             // Construct a CodeWriter to handle the output file
             CodeWriter codeWriter = new CodeWriter(asmFile);
 
-            // Process all .vm files within the directory
+            // Process all .vm files within the                       directory
             File[] vmFiles = inputFile.listFiles((dir, name) -> name.endsWith(".vm"));
             if (vmFiles != null) {
                 for (File vmFile : vmFiles) {
@@ -63,6 +63,25 @@ public class Main {
             }
             else if (parser.commandType() == Parser.CommandType.C_PUSH || parser.commandType() == Parser.CommandType.C_POP) {
                 codeWriter.writePushPop(parser.commandType(), parser.arg1(), parser.arg2());
+            }
+            else if (parser.commandType() == Parser.CommandType.C_LABEL) {
+                codeWriter.writeLabel(parser.arg1());
+            }
+            else if (parser.commandType() == Parser.CommandType.C_GOTO) {
+                codeWriter.writeGoto(parser.arg1());
+            }
+            else if (parser.commandType() == Parser.CommandType.C_IF) {
+                codeWriter.writeIf(parser.arg1());
+            }
+            else if (parser.commandType() == Parser.CommandType.C_FUNCTION) {
+                codeWriter.writeFunction(parser.arg1(), parser.arg2());
+            }
+            else if (parser.commandType() == Parser.CommandType.C_CALL) {
+                codeWriter.writeCall(parser.arg1(), parser.arg2());
+            }
+            // If commandType is C_RETURN
+            else{
+                codeWriter.writeReturn();
             }
 
         }

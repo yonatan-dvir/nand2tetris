@@ -87,7 +87,8 @@ public class Parser {
             return CommandType.C_FUNCTION;
         }
         // else (if the command is return...)
-        return CommandType.C_RETURN;    }
+        return CommandType.C_RETURN;
+    }
 
     /*public void SetCommandType(){
         String trimmedCommand = this.currentCommand.trim();
