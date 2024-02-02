@@ -196,8 +196,13 @@ public class CodeWriter{
     // Writes assembly code that effects the function command
     public void writeFunction(String functionName, int nVars){
         try{
-            // (retAddrLabel)
+            // (functionName)
             bufferedWriter.write("(" + functionName.toUpperCase() + ")\n");
+            // push nVars 0 values
+            for (int i = 0 ; i < nVars ; i++){
+                bufferedWriter.write("@SP\nA=M\nM=0\n@SP\nM=M+1\n");
+            }
+
         }
         catch (IOException e){
             e.printStackTrace();
