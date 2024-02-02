@@ -149,7 +149,7 @@ public class CodeWriter{
     // Writes assembly code that effects the goto command
     public void writeGoto(String label){
         try{
-            bufferedWriter.write("@" + label + "\n0;JMP");
+            bufferedWriter.write("@" + label.toUpperCase() + "\n0;JMP");
         }
         catch (IOException e){
             e.printStackTrace();
@@ -159,18 +159,7 @@ public class CodeWriter{
     // Writes assembly code that effects the if-goto command
     public void writeIf(String label){
         try{
-            bufferedWriter.write("@SP\nM=M-1\nA=M\nD=M\n@" + label + "\nD;JGT\n");
-        }
-        catch (IOException e){
-            e.printStackTrace();
-        }
-    }
-
-
-    // Writes assembly code that effects the function command
-    public void writeFunction(String functionName, int nVars){
-        try{
-            bufferedWriter.write("\n");
+            bufferedWriter.write("@SP\nM=M-1\nA=M\nD=M\n@" + label.toUpperCase() + "\nD;JGT\n");
         }
         catch (IOException e){
             e.printStackTrace();
@@ -180,7 +169,35 @@ public class CodeWriter{
     // Writes assembly code that effects the call command
     public void writeCall(String functionName, int nArgs){
         try{
-            bufferedWriter.write("\n");
+            // push retAddrLabel
+            bufferedWriter.write("@SP\n@retAddrLabel=M\n@SP\nM=M+1\n");
+            // push LCL
+            bufferedWriter.write("@SP\n@LCL=M\n@SP\nM=M+1\n");
+            // push ARG
+            bufferedWriter.write("@SP\n@ARG=M\n@SP\nM=M+1\n");
+            // push THIS
+            bufferedWriter.write("@SP\n@THIS=M\n@SP\nM=M+1\n");
+            // push THAT
+            bufferedWriter.write("@SP\n@THAT=M\n@SP\nM=M+1\n");
+            // ARG = SP - 5 - nArgs
+            bufferedWriter.write("@SP\nD=M\n@5\nD=D-A\n@" + nArgs + "\nD=D-A\n@ARG\nM=D\n");
+            // LCL = SP
+            bufferedWriter.write("@SP\nD=M\n@LCL\nM=D\n");
+            // goto functionName
+            bufferedWriter.write("@" + functionName.toUpperCase() + "\n0;JMP");
+            // (retAddrLabel)
+            bufferedWriter.write("(retAddrLabel)\n");
+        }
+        catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+
+    // Writes assembly code that effects the function command
+    public void writeFunction(String functionName, int nVars){
+        try{
+            // (retAddrLabel)
+            bufferedWriter.write("(" + functionName.toUpperCase() + ")\n");
         }
         catch (IOException e){
             e.printStackTrace();
