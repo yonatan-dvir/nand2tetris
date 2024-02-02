@@ -57,9 +57,9 @@ public class Main {
         while (parser.hasMoreLines()){
             // Advance to the next instruction
             parser.advance();
-            System.out.println(parser.commandType());
+            codeWriter.writeComment(parser.currentCommand);
             if (parser.commandType() == Parser.CommandType.C_ARITHMETIC){
-                codeWriter.writeArithmetic(parser.currentCommand);
+                codeWriter.writeArithmetic(parser.arg1());
             }
             else if (parser.commandType() == Parser.CommandType.C_PUSH || parser.commandType() == Parser.CommandType.C_POP) {
                 codeWriter.writePushPop(parser.commandType(), parser.arg1(), parser.arg2());

@@ -108,7 +108,7 @@ public class Parser {
     public String arg1(){
         // In the case of C_ARITHMETIC, the command itself is returned.
         if (this.commandType() == CommandType.C_ARITHMETIC){
-            return this.currentCommand;
+            return this.currentCommand.split(" ")[0];
         }
         // Should not be called if the current command is C_RETURN.
         else if (this.commandType() == CommandType.C_RETURN){

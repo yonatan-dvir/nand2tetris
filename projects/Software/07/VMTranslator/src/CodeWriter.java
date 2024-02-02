@@ -149,7 +149,7 @@ public class CodeWriter{
     // Writes assembly code that effects the goto command
     public void writeGoto(String label){
         try{
-            bufferedWriter.write("@" + label.toUpperCase() + "\n0;JMP");
+            bufferedWriter.write("@" + label.toUpperCase() + "\n0;JMP\n");
         }
         catch (IOException e){
             e.printStackTrace();
@@ -159,7 +159,7 @@ public class CodeWriter{
     // Writes assembly code that effects the if-goto command
     public void writeIf(String label){
         try{
-            bufferedWriter.write("@SP\nM=M-1\nA=M\nD=M\n@" + label.toUpperCase() + "\nD;JGT\n");
+            bufferedWriter.write("@SP\nM=M-1\nA=M\nD=M\n@" + label.toUpperCase() + "\nD;JNE\n");
         }
         catch (IOException e){
             e.printStackTrace();
@@ -184,7 +184,7 @@ public class CodeWriter{
             // LCL = SP
             bufferedWriter.write("@SP\nD=M\n@LCL\nM=D\n");
             // goto functionName
-            bufferedWriter.write("@" + functionName.toUpperCase() + "\n0;JMP");
+            bufferedWriter.write("@" + functionName.toUpperCase() + "\n0;JMP\n");
             // (retAddrLabel)
             bufferedWriter.write("(retAddrLabel)\n");
         }
@@ -199,8 +199,9 @@ public class CodeWriter{
             // (functionName)
             bufferedWriter.write("(" + functionName.toUpperCase() + ")\n");
             // push nVars 0 values
+            bufferedWriter.write("@LCL\nA=M\n");
             for (int i = 0 ; i < nVars ; i++){
-                bufferedWriter.write("@SP\nA=M\nM=0\n@SP\nM=M+1\n");
+                bufferedWriter.write("M=0\nA=A+1\n");
             }
 
         }
@@ -215,21 +216,21 @@ public class CodeWriter{
             // endFrame = LCL
             bufferedWriter.write("@LCL\nD=M\n@endFrame\nM=D\n");
             // retAddr = *(endFrame - 5)
-            bufferedWriter.write("@endFrame\nD=M\n@5\nD=D-A\n@D\nD=A\n@retAddr\nM=D\n");
+            bufferedWriter.write("@endFrame\nD=M\n@5\nA=D-A\nD=M\n@retAddr\nM=D\n");
             // *ARG = pop()
             bufferedWriter.write("@SP\nA=M\nD=M\n@ARG\nA=M\nM=D\n");
             // SP = ARG + 1
             bufferedWriter.write("@ARG\nD=M\nD=D+1\n@SP\nM=D\n");
             // THAT = *(endFrame - 1)
-            bufferedWriter.write("@endFrame\nD=M\n@1\nD=D-A\n@D\nD=A\n@THAT\nM=D\n");
+            bufferedWriter.write("@endFrame\nD=M\n@1\nA=D-A\nD=M\n@THAT\nM=D\n");
             // THIS = *(endFrame - 2)
-            bufferedWriter.write("@endFrame\nD=M\n@2\nD=D-A\n@D\nD=A\n@THIS\nM=D\n");
+            bufferedWriter.write("@endFrame\nD=M\n@2\nA=D-A\nD=M\n@THIS\nM=D\n");
             // ARG = *(endFrame - 3)
-            bufferedWriter.write("@endFrame\nD=M\n@3\nD=D-A\n@D\nD=A\n@ARG\nM=D\n");
+            bufferedWriter.write("@endFrame\nD=M\n@3\nA=D-A\nD=M\n@ARG\nM=D\n");
             // LCL = *(endFrame - 4)
-            bufferedWriter.write("@endFrame\nD=M\n@4\nD=D-A\n@D\nD=A\n@LCL\nM=D\n");
+            bufferedWriter.write("@endFrame\nD=M\n@4\nA=D-A\nD=M\n@LCL\nM=D\n");
             // goto retAddr
-            bufferedWriter.write("@retAddr\n0;JMP");
+            bufferedWriter.write("@retAddr\n0;JMP\n");
         }
         catch (IOException e){
             e.printStackTrace();
@@ -240,6 +241,14 @@ public class CodeWriter{
     public void close() {
         try{
             this.bufferedWriter.close();
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+
+    public void writeComment(String comment){
+        try{
+            bufferedWriter.write("// " + comment + "\n");
         } catch (IOException e){
             e.printStackTrace();
         }
