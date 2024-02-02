@@ -57,7 +57,7 @@ public class Main {
         while (parser.hasMoreLines()){
             // Advance to the next instruction
             parser.advance();
-
+            System.out.println(parser.commandType());
             if (parser.commandType() == Parser.CommandType.C_ARITHMETIC){
                 codeWriter.writeArithmetic(parser.currentCommand);
             }

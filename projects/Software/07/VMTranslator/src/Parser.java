@@ -48,7 +48,7 @@ public class Parser {
             // Skip over whitespaces and comments
             while ((line = bufferedReader.readLine()) != null && (line.trim().startsWith("//") || line.trim().isEmpty())) {
             }
-            this.currentCommand = line;
+            this.currentCommand = line.trim();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -56,34 +56,33 @@ public class Parser {
 
     // Returns a constant representing the type of the current command
     public CommandType commandType(){
-        String trimmedCommand = this.currentCommand.trim();
         /* Dictionary <String, CommandType> dict = {"push":C_PUSH, "pop":C_POP, "add":C_ARITHMETIC,
                 "sub":C_ARITHMETIC, "neg":C_ARITHMETIC, "eq":C_ARITHMETIC, "gt":C_ARITHMETIC,
                 "lt":C_ARITHMETIC, "and":C_ARITHMETIC, "or":C_ARITHMETIC, "not":C_ARITHMETIC} */
-        if (trimmedCommand.startsWith("push")){
+        if (this.currentCommand.startsWith("push")){
             return CommandType.C_PUSH;
         }
-        else if (trimmedCommand.startsWith("pop")) {
+        else if (this.currentCommand.startsWith("pop")) {
             return CommandType.C_POP;
         }
-        else if (trimmedCommand.startsWith("add") || trimmedCommand.startsWith("sub") || trimmedCommand.startsWith("neg") ||
-                trimmedCommand.startsWith("eq") || trimmedCommand.startsWith("gt") || trimmedCommand.startsWith("lt") ||
-                trimmedCommand.startsWith("and") || trimmedCommand.startsWith("or") || trimmedCommand.startsWith("not")){
+        else if (this.currentCommand.startsWith("add") || this.currentCommand.startsWith("sub") || this.currentCommand.startsWith("neg") ||
+                this.currentCommand.startsWith("eq") || this.currentCommand.startsWith("gt") || this.currentCommand.startsWith("lt") ||
+                this.currentCommand.startsWith("and") || this.currentCommand.startsWith("or") || this.currentCommand.startsWith("not")){
             return CommandType.C_ARITHMETIC;
         }
-        else if (trimmedCommand.startsWith("goto")) {
+        else if (this.currentCommand.startsWith("goto")) {
             return CommandType.C_GOTO;
         }
-        else if (trimmedCommand.startsWith("if-goto")) {
+        else if (this.currentCommand.startsWith("if-goto")) {
             return CommandType.C_IF;
         }
-        else if (trimmedCommand.startsWith("label")) {
+        else if (this.currentCommand.startsWith("label")) {
             return CommandType.C_LABEL;
         }
-        else if (trimmedCommand.startsWith("call")) {
+        else if (this.currentCommand.startsWith("call")) {
             return CommandType.C_CALL;
         }
-        else if (trimmedCommand.startsWith("function")) {
+        else if (this.currentCommand.startsWith("function")) {
             return CommandType.C_FUNCTION;
         }
         // else (if the command is return...)
@@ -126,7 +125,9 @@ public class Parser {
                 this.commandType() != CommandType.C_FUNCTION && this.commandType() != CommandType.C_CALL){
             return -1;
         }
-        return Integer.parseInt(this.currentCommand.split(" ")[2]);
+        return Integer.parseInt(this.currentCommand.split(" ")[2].trim());
+
+
     }
 }
 

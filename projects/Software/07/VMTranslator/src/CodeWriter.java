@@ -166,11 +166,11 @@ public class CodeWriter{
         }
     }
 
-    /*
+
     // Writes assembly code that effects the function command
     public void writeFunction(String functionName, int nVars){
         try{
-
+            bufferedWriter.write("\n");
         }
         catch (IOException e){
             e.printStackTrace();
@@ -180,7 +180,7 @@ public class CodeWriter{
     // Writes assembly code that effects the call command
     public void writeCall(String functionName, int nArgs){
         try{
-
+            bufferedWriter.write("\n");
         }
         catch (IOException e){
             e.printStackTrace();
@@ -190,7 +190,7 @@ public class CodeWriter{
     // Writes assembly code that effects the return command
     public void writeReturn(){
         try{
-
+            bufferedWriter.write("\n");
         }
         catch (IOException e){
             e.printStackTrace();
@@ -205,7 +205,7 @@ public class CodeWriter{
             e.printStackTrace();
         }
     }
-    
-     */
+
+
 
 }
