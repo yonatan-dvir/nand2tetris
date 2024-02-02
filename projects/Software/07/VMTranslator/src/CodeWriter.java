@@ -212,7 +212,24 @@ public class CodeWriter{
     // Writes assembly code that effects the return command
     public void writeReturn(){
         try{
-            bufferedWriter.write("\n");
+            // endFrame = LCL
+            bufferedWriter.write("@LCL\nD=M\n@endFrame\nM=D\n");
+            // retAddr = *(endFrame - 5)
+            bufferedWriter.write("@endFrame\nD=M\n@5\nD=D-A\n@D\nD=A\n@retAddr\nM=D\n");
+            // *ARG = pop()
+            bufferedWriter.write("@SP\nA=M\nD=M\n@ARG\nA=M\nM=D\n");
+            // SP = ARG + 1
+            bufferedWriter.write("@ARG\nD=M\nD=D+1\n@SP\nM=D\n");
+            // THAT = *(endFrame - 1)
+            bufferedWriter.write("@endFrame\nD=M\n@1\nD=D-A\n@D\nD=A\n@THAT\nM=D\n");
+            // THIS = *(endFrame - 2)
+            bufferedWriter.write("@endFrame\nD=M\n@2\nD=D-A\n@D\nD=A\n@THIS\nM=D\n");
+            // ARG = *(endFrame - 3)
+            bufferedWriter.write("@endFrame\nD=M\n@3\nD=D-A\n@D\nD=A\n@ARG\nM=D\n");
+            // LCL = *(endFrame - 4)
+            bufferedWriter.write("@endFrame\nD=M\n@4\nD=D-A\n@D\nD=A\n@LCL\nM=D\n");
+            // goto retAddr
+            bufferedWriter.write("@retAddr\n0;JMP");
         }
         catch (IOException e){
             e.printStackTrace();
