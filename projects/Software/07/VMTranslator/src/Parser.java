@@ -125,7 +125,7 @@ public class Parser {
                 this.commandType() != CommandType.C_FUNCTION && this.commandType() != CommandType.C_CALL){
             return -1;
         }
-        return Integer.parseInt(this.currentCommand.split(" ")[2].trim());
+        return Integer.parseInt(this.currentCommand.split(" ")[2].trim().split("\t")[0]);
 
 
     }

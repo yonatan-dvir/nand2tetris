@@ -11,7 +11,6 @@ public class CodeWriter{
     private static BufferedWriter bufferedWriter;
 
     private String file;
-
     private int returnCount;
 
     // Opens the file and gets ready to write into it
@@ -23,6 +22,10 @@ public class CodeWriter{
             int start = asmFile.toString().lastIndexOf("/") + 1;
             int end = asmFile.toString().length();
             this.file = asmFile.toString().substring(start, end).split("\\.")[0];
+            // Init RAM[0] to be 256
+            bufferedWriter.write("@256\nD=A\n@SP\nM=D\n");
+            // Call Sys.init
+            writeCall("Sys.init", 0);
         }
         catch (IOException e) {
             e.printStackTrace();
@@ -59,9 +62,6 @@ public class CodeWriter{
             else if (currentCommand.trim().equals("lt")){
                 bufferedWriter.write("@SP\nM=M-1\nA=M\nD=M\n@SP\nM=M-1\nA=M\nD=D-M\nM=-1\n@LOWER\nD;JGT\n@SP\nA=M\nM=0\n(LOWER)\n@SP\nM=M+1\n");
             }
-            else{
-                // Next week...
-            }
 
         }
         catch (IOException e){
@@ -91,11 +91,11 @@ public class CodeWriter{
                 }
                 // If segment is "pointer"
                 else{
-                    // to pop pinter 0, generate assembly code that executes push/pop THIS
+                    // to pop pointer 0, generate assembly code that executes pop THIS
                     if (index == 0) {
                         bufferedWriter.write("@SP\nM=M-1\nA=M\nD=M\n@THIS\nM=D\n");
                     }
-                    // to pop pinter 1, generate assembly code that executes push/pop THAT
+                    // to pop pointer 1, generate assembly code that executes pop THAT
                     else {
                         bufferedWriter.write("@SP\nM=M-1\nA=M\nD=M\n@THAT\nM=D\n");
                     }
@@ -119,11 +119,11 @@ public class CodeWriter{
                 }
                 // If segment is "pointer"
                 else{
-                    // to push pinter 0, generate assembly code that executes push/pop THIS
+                    // to push pointer 0, generate assembly code that executes push THIS
                     if (index == 0) {
                         bufferedWriter.write("@THIS\nD=M\n@SP\nA=M\nM=D\n@SP\nM=M+1\n");
                     }
-                    // to push pinter 1, generate assembly code that executes push/pop THAT
+                    // to push pointer 1, generate assembly code that executes push THAT
                     else {
                         bufferedWriter.write("@THAT\nD=M\n@SP\nA=M\nM=D\n@SP\nM=M+1\n");
                     }
@@ -159,7 +159,7 @@ public class CodeWriter{
     // Writes assembly code that effects the if-goto command
     public void writeIf(String label){
         try{
-            bufferedWriter.write("@SP\nM=M-1\nA=M\nD=M\n@" + label + "\nD;JNE\n");
+            bufferedWriter.write("@SP\nAM=M-1\nD=M\nA=A-1\n@" + label + "\nD;JNE\n");
         }
         catch (IOException e){
             e.printStackTrace();
@@ -170,7 +170,7 @@ public class CodeWriter{
     public void writeCall(String functionName, int nArgs){
         try{
             // push retAddrLabel
-            bufferedWriter.write("@RETURN" + returnCount + "\nD=M\n@SP\nA=M\nM=D\n@SP\nM=M+1\n");
+            bufferedWriter.write("@RETURN" + returnCount + "\nD=A\n@SP\nA=M\nM=D\n@SP\nM=M+1\n");
             // push LCL
             bufferedWriter.write("@LCL\nD=M\n@SP\nAM=M+1\nA=A-1\nM=D\n");
             // push ARG
@@ -196,19 +196,25 @@ public class CodeWriter{
 
     // Writes assembly code that effects the function command
     public void writeFunction(String functionName, int nVars){
-        try{
-            // (functionName)
-            bufferedWriter.write("(" + functionName.toUpperCase() + ")\n");
-            // push nVars 0 values
-//            bufferedWriter.write("@LCL\nA=M\n");
-            for (int i = 0 ; i < nVars ; i++){
-                writePushPop(Parser.CommandType.C_PUSH, "constant", 0);
-            }
-
+        // (functionName)
+        writeLabel(functionName);
+        // push nVars 0 values
+        //bufferedWriter.write("@LCL\nA=M\n");
+        for (int i = 0 ; i < nVars ; i++){
+            writePushPop(Parser.CommandType.C_PUSH, "constant", 0);
         }
-        catch (IOException e){
-            e.printStackTrace();
-        }
+//        try{
+//            // (functionName)
+//            writeLabel(functionName);
+//            // push nVars 0 values
+//            //bufferedWriter.write("@LCL\nA=M\n");
+//            for (int i = 0 ; i < nVars ; i++){
+//                writePushPop(Parser.CommandType.C_PUSH, "constant", 0);
+//            }
+//        }
+//        catch (IOException e){
+//            e.printStackTrace();
+//        }
     }
 
     // Writes assembly code that effects the return command
