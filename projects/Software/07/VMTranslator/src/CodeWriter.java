@@ -199,22 +199,9 @@ public class CodeWriter{
         // (functionName)
         writeLabel(functionName);
         // push nVars 0 values
-        //bufferedWriter.write("@LCL\nA=M\n");
         for (int i = 0 ; i < nVars ; i++){
             writePushPop(Parser.CommandType.C_PUSH, "constant", 0);
         }
-//        try{
-//            // (functionName)
-//            writeLabel(functionName);
-//            // push nVars 0 values
-//            //bufferedWriter.write("@LCL\nA=M\n");
-//            for (int i = 0 ; i < nVars ; i++){
-//                writePushPop(Parser.CommandType.C_PUSH, "constant", 0);
-//            }
-//        }
-//        catch (IOException e){
-//            e.printStackTrace();
-//        }
     }
 
     // Writes assembly code that effects the return command
@@ -253,6 +240,7 @@ public class CodeWriter{
         }
     }
 
+    // Writes the given vm command as a comment in the output asm file
     public void writeComment(String comment){
         try{
             bufferedWriter.write("// " + comment + "\n");

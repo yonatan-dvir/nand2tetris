@@ -89,21 +89,6 @@ public class Parser {
         return CommandType.C_RETURN;
     }
 
-    /*public void SetCommandType(){
-        String trimmedCommand = this.currentCommand.trim();
-        if (trimmedCommand.startsWith("push")){
-            this.currentCommandType = CommandType.C_PUSH;
-        }
-        else if (trimmedCommand.startsWith("pop")) {
-            this.currentCommandType = CommandType.C_POP;
-        }
-        else if (trimmedCommand.startsWith("add") || trimmedCommand.startsWith("sub") || trimmedCommand.startsWith("neg") ||
-                trimmedCommand.startsWith("eq") || trimmedCommand.startsWith("gt") || trimmedCommand.startsWith("lt") ||
-                trimmedCommand.startsWith("and") || trimmedCommand.startsWith("or") || trimmedCommand.startsWith("not")){
-            this.currentCommandType = CommandType.C_ARITHMETIC;
-        }
-    }*/
-
     // Returns the first argument of the current command.
     public String arg1(){
         // In the case of C_ARITHMETIC, the command itself is returned.
