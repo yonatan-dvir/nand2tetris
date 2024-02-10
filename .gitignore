@@ -1,3 +1,5 @@
 AUTHORS
 **/*.class
+*.jack
+*.xml
 
