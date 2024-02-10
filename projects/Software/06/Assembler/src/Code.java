@@ -3,28 +3,28 @@ public class Code {
     // Translates the given dest field string into its binary value
     public static String dest(String destString){
         switch (destString.trim()){
-            case "" -> {
+            case "": {
                 return "000";
             }
-            case "M" -> {
+            case "M": {
                 return "001";
             }
-            case "D" -> {
+            case "D": {
                 return "010";
             }
-            case "DM", "MD" -> {
+            case "DM", "MD": {
                 return "011";
             }
-            case "A" -> {
+            case "A": {
                 return "100";
             }
-            case "AM" -> {
+            case "AM": {
                 return "101";
             }
-            case "AD" -> {
+            case "AD": {
                 return "110";
             }
-            case "ADM" -> {
+            case "ADM": {
                 return "111";
             }
         }
@@ -34,88 +34,88 @@ public class Code {
     // Translates the given comp field string into its binary value
     public static String comp(String compString){
         switch (compString.trim()){
-            case "0" -> {
+            case "0": {
                 return "0101010";
             }
-            case "1" -> {
+            case "1": {
                 return "0111111";
             }
-            case "-1" -> {
+            case "-1": {
                 return "0111010";
             }
-            case "D" -> {
+            case "D": {
                 return "0001100";
             }
-            case "A" -> {
+            case "A": {
                 return "0110000";
             }
-            case "M" -> {
+            case "M": {
                 return "1110000";
             }
-            case "!D" -> {
+            case "!D": {
                 return "0001101";
             }
-            case "!A" -> {
+            case "!A": {
                 return "0110001";
             }
-            case "!M" -> {
+            case "!M": {
                 return "1110001";
             }
-            case "-D" -> {
+            case "-D": {
                 return "0001111";
             }
-            case "-A" -> {
+            case "-A": {
                 return "0110011";
             }
-            case "-M" -> {
+            case "-M": {
                 return "1110011";
             }
-            case "D+1" -> {
+            case "D+1": {
                 return "0011111";
             }
-            case "A+1" -> {
+            case "A+1": {
                 return "0110111";
             }
-            case "M+1" -> {
+            case "M+1": {
                 return "1110111";
             }
-            case "D-1" -> {
+            case "D-1": {
                 return "0001110";
             }
-            case "A-1" -> {
+            case "A-1": {
                 return "0110010";
             }
-            case "M-1" -> {
+            case "M-1": {
                 return "1110010";
             }
-            case "D+A" -> {
+            case "D+A": {
                 return "0000010";
             }
-            case "D+M" -> {
+            case "D+M": {
                 return "1000010";
             }
-            case "D-A" -> {
+            case "D-A": {
                 return "0010011";
             }
-            case "D-M" -> {
+            case "D-M": {
                 return "1010011";
             }
-            case "A-D" -> {
+            case "A-D": {
                 return "0000111";
             }
-            case "M-D" -> {
+            case "M-D": {
                 return "1000111";
             }
-            case "D&A" -> {
+            case "D&A": {
                 return "0000000";
             }
-            case "D&M" -> {
+            case "D&M": {
                 return "1000000";
             }
-            case "D|A" -> {
+            case "D|A": {
                 return "0010101";
             }
-            case "D|M" -> {
+            case "D|M": {
                 return "1010101";
             }
         }
@@ -125,28 +125,28 @@ public class Code {
     // Translates the given juump field string into its binary value
     public static String jump(String jumpString){
         switch (jumpString.trim()){
-            case "" -> {
+            case "": {
                 return "000";
             }
-            case "JGT" -> {
+            case "JGT": {
                 return "001";
             }
-            case "JEQ" -> {
+            case "JEQ": {
                 return "010";
             }
-            case "JGE" -> {
+            case "JGE": {
                 return "011";
             }
-            case "JLT" -> {
+            case "JLT": {
                 return "100";
             }
-            case "JNE" -> {
+            case "JNE": {
                 return "101";
             }
-            case "JLE" -> {
+            case "JLE": {
                 return "110";
             }
-            case "JMP" -> {
+            case "JMP": {
                 return "111";
             }
         }
