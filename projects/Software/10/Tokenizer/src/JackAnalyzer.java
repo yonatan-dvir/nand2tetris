@@ -31,17 +31,17 @@ public class JackAnalyzer {
     }
 
     private static void processFile(File inputFile) throws IOException {
-        JackTokenizer tokenizer = new JackTokenizer(inputFile.toString());
         // Create the output file with the same name as the prepared file but with .xml extension
         String outputFileName = inputFile.getAbsolutePath().replace(".jack", ".xml");
         File outputFile = new File(outputFileName);
 
         // Creates a CompilationEngine and calls the compileClass method
         CompilationEngine compilationEngine = new CompilationEngine(inputFile, outputFile);
+        compilationEngine.compileClass();
 
 
         // Close the buffer writer.
-        compilationEngine.bufferedWriter.close();
+        compilationEngine.fw.close();
     }
 }
 

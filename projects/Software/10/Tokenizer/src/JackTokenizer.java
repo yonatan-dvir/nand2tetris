@@ -15,10 +15,9 @@ public class JackTokenizer {
     private ArrayList<String> tokens;
     private String jackCode;
     static int pointer;
-
     private char symbolToken;
     private int intvalToken;
-
+    private boolean bFirst;
 
     private List<String> keyWords = new ArrayList<>(Arrays.asList(
             "class", "constructor", "function", "method", "field",
@@ -82,16 +81,17 @@ public class JackTokenizer {
     }
 
     public void initializeTokensArray(String jackCode){
+        this.tokens = new ArrayList<String>();
         while (jackCode.length() > 0) {
-//            while (jackCode.charAt(0) == ' ') {
-//                jackCode = jackCode.substring(1);
-//            }
-            jackCode = jackCode.trim();
+            while (jackCode.charAt(0) == ' ') {
+                jackCode = jackCode.substring(1);
+            }
+            //jackCode = jackCode.trim();
             // Check if keyword and insert it to the tokens list
             for (int i = 0; i < keyWords.size(); i++) {
                 if (jackCode.startsWith(keyWords.get(i).toString())) {
                     String keyword = keyWords.get(i).toString();
-                    tokens.add(keyword);
+                    this.tokens.add(keyword);
                     jackCode = jackCode.substring(keyword.length());
                 }
 
@@ -140,9 +140,9 @@ public class JackTokenizer {
                 tokens.add(strIdentifier);
 
             }
-            // start out with pointer at position 0
+            // start with pointer at position 0
             this.pointer = 0;
-
+            bFirst = true;
 
         }
     }
@@ -154,26 +154,38 @@ public class JackTokenizer {
 
     // Reads next token from the tokens list and set it as the current line.
     public void advance() {
-        String currentItem = tokens.get(pointer);
-        // assign current token type and corresponding field variable (keyword, symbol, intval, stringval, or identifier)
-        // for this current token - position of where we are in the tokens array
-        if (keyWords.contains(currentItem)) {
-            this.tokenType = TokenType.KEYWORD;
-            this.currentToken = currentItem;
-        } else if (symbols.contains(currentItem)) {
-            this.tokenType = TokenType.SYMBOL;
-            this.currentToken = currentItem.charAt(0) + "";
-            symbolToken = currentItem.charAt(0);
-        } else if (Character.isDigit(currentItem.charAt(0))) {
-            this.tokenType = TokenType.INT_CONST;
-            this.currentToken = Integer.parseInt(currentItem) + "";
-            intvalToken = Integer.parseInt(currentItem);
-        } else if (currentItem.substring(0, 1).equals("\"")) {
-            this.tokenType = TokenType.STRING_CONST;
-            this.currentToken = currentItem.substring(1, currentItem.length() - 1);
-        } else if ((Character.isLetter(currentItem.charAt(0))) || (currentItem.charAt(0) == '_')) {
-            this.tokenType = TokenType.IDENTIFIER;
-            this.currentToken = currentItem;
+        if (hasMoreTokens()) {
+            if (!bFirst) {
+                pointer++;
+            }
+            // if at position 0 of tokens, we do not want to increment yet
+            else if (bFirst) {
+                bFirst = false;
+            }
+            String currentItem = tokens.get(pointer);
+            // assign current token type and corresponding field variable (keyword, symbol, intval, stringval, or identifier)
+            // for this current token - position of where we are in the tokens array
+            if (keyWords.contains(currentItem)) {
+                this.tokenType = TokenType.KEYWORD;
+                this.currentToken = currentItem;
+            } else if (symbols.contains(currentItem)) {
+                this.tokenType = TokenType.SYMBOL;
+                this.currentToken = currentItem.charAt(0) + "";
+                symbolToken = currentItem.charAt(0);
+            } else if (Character.isDigit(currentItem.charAt(0))) {
+                this.tokenType = TokenType.INT_CONST;
+                this.currentToken = Integer.parseInt(currentItem) + "";
+                intvalToken = Integer.parseInt(currentItem);
+            } else if (currentItem.substring(0, 1).equals("\"")) {
+                this.tokenType = TokenType.STRING_CONST;
+                this.currentToken = currentItem.substring(1, currentItem.length() - 1);
+            } else if ((Character.isLetter(currentItem.charAt(0))) || (currentItem.charAt(0) == '_')) {
+                this.tokenType = TokenType.IDENTIFIER;
+                this.currentToken = currentItem;
+            }
+        }
+        else {
+            return;
         }
     }
 
@@ -208,6 +220,16 @@ public class JackTokenizer {
         return this.currentToken;
     }
 
+
+    // indicates if a symbol is an operation, i.e., =, +, -, &, |, etc.
+    public boolean isOperation() {
+        for (int i = 0; i < operations.length(); i++) {
+            if (operations.charAt(i) == this.symbolToken) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     // Restart the tokenizer to be at the top of the file
     public void restartTokenizer() {
