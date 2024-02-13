@@ -41,7 +41,7 @@ public class JackAnalyzer {
 
 
         // Close the buffer writer.
-        compilationEngine.fw.close();
+        //compilationEngine.bufferedWriter.close();
     }
 }
 

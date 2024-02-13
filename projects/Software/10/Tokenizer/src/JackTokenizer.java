@@ -42,15 +42,16 @@ public class JackTokenizer {
         try {
             this.bufferedReader = new BufferedReader(new FileReader(file));
             this.bufferedReader.mark(initialMarkLimit);
-
+            System.out.println("bro");
             // Set jackCode to be all the relevant code in the jack file
             this.advanceLine();
             while (this.hasMoreLines()){
-                this.jackCode += this.currentLine.trim();
+                this.jackCode += this.currentLine.trim().split("/")[0];
                 this.advanceLine();
             }
             // initialize the tokens arrayList
             this.initializeTokensArray(this.jackCode);
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -72,7 +73,7 @@ public class JackTokenizer {
         try {
             String line;
             // Skip over whitespaces and comments
-            while ((line = bufferedReader.readLine()) != null && (line.trim().startsWith("//")|| line.trim().startsWith("/**") || line.trim().isEmpty())) {
+            while ((line = bufferedReader.readLine()) != null && (line.trim().startsWith("//")|| line.trim().startsWith("/**") || line.trim().startsWith("*") ||line.trim().isEmpty())) {
             }
             this.currentLine = line;
         } catch (IOException e) {
@@ -161,6 +162,7 @@ public class JackTokenizer {
             // if at position 0 of tokens, we do not want to increment yet
             else if (bFirst) {
                 bFirst = false;
+                return;
             }
             String currentItem = tokens.get(pointer);
             // assign current token type and corresponding field variable (keyword, symbol, intval, stringval, or identifier)
